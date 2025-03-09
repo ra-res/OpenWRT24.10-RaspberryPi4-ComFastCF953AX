@@ -1,5 +1,25 @@
 # Setting Up OpenWRT on Raspberry Pi 4 with ComFast CF-953AX and TP-LINK UE300 Ethernet Adapter
 
+## Required Hardware and Costs
+
+1. **Raspberry Pi 4 Model B** 
+   - RAM: 2GB / 4GB / 8GB 
+   - Approximate Cost: £30 - £60
+
+2. **MicroSD Card (Minimum 16GB recommended)**
+   - Approximate Cost: £8 - £20
+
+3. **ComFast CF-953AX WiFi 6 USB Adapter**
+   - Approximate Cost: £10 - £15
+
+4. **TP-LINK UE300 USB 3.0 to Gigabit Ethernet Adapter**
+   - Approximate Cost: £10 - £15
+
+5. **Power Supply for Raspberry Pi**
+   - Approximate Cost: £10
+
+### Total Approximate Cost: £68 - £120
+
 ## Step 1: Downloading the Customized OpenWRT Firmware
 
 1. Visit the [OpenWRT Firmware Selector](https://firmware-selector.openwrt.org/).
@@ -54,53 +74,53 @@ Follow the [AdGuard Home setup guide](https://openwrt.org/docs/guide-user/servic
 
 ## Step 5: Repartitioning the Filesystem (Credits: [rahulelex/resize-storage-on-openwrt-raspberry-pi](https://github.com/rahulelex/resize-storage-on-openwrt-raspberry-pi/tree/master))
 
-### SSH into the Raspberry PI
+1. SSH into the Raspberry PI
 
 ```sh
 ssh root@192.168.1.1
 ```
 
-### Step 1: Install the Required Packages
+2. Install the Required Packages
 ```sh
 opkg update
 opkg install cfdisk resize2fs tune2fs
 ```
 
-### Step 2: Resize the Partition
+3. Resize the Partition
 ```sh
 cfdisk /dev/mmcblk0
 ```
 Resize the `/dev/mmcblk0p2` partition (enter the desired space). After this, write the changes and quit.
 
-### Step 3: Reboot
+3. Reboot
 ```sh
 reboot
 ```
 
-### Step 4: Remount Root as RO
+4. Remount Root as RO
 ```sh
 mount -o remount,ro /
 ```
 
 If remounting fails, reboot and remount as ro again.
 
-### Step 5: Remove Reserved GDT Blocks
+5. Remove Reserved GDT Blocks
 ```sh
 tune2fs -O^resize_inode /dev/mmcblk0p2
 fsck.ext4 /dev/mmcblk0p2 
 ```
 
-### Step 6: Reboot
+6. Reboot
 ```sh
 reboot
 ```
 
-### Step 7: Resize the F2FS Filesystem
+7. Resize the F2FS Filesystem
 ```sh
 resize2fs /dev/mmcblk0p2
 ```
 
-### Step 8: Check New Root Partition Size
+8. Check New Root Partition Size
 ```sh
 df –h
 ```
