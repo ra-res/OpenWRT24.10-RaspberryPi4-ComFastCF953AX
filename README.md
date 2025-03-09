@@ -52,6 +52,61 @@ config interface 'wan'
 
 Follow the [AdGuard Home setup guide](https://openwrt.org/docs/guide-user/services/dns/adguard-home) and add HaGeZi Ultimate to the DNS blocklist.
 
+## Step 5: Repartitioning the Filesystem (Credits: [rahulelex/resize-storage-on-openwrt-raspberry-pi](https://github.com/rahulelex/resize-storage-on-openwrt-raspberry-pi/tree/master))
+
+### SSH into the Raspberry PI
+
+```sh
+ssh root@192.168.1.1
+```
+
+### Step 1: Install the Required Packages
+```sh
+opkg update
+opkg install cfdisk resize2fs tune2fs
+```
+
+### Step 2: Resize the Partition
+```sh
+cfdisk /dev/mmcblk0
+```
+Resize the `/dev/mmcblk0p2` partition (enter the desired space). After this, write the changes and quit.
+
+### Step 3: Reboot
+```sh
+reboot
+```
+
+### Step 4: Remount Root as RO
+```sh
+mount -o remount,ro /
+```
+
+If remounting fails, reboot and remount as ro again.
+
+### Step 5: Remove Reserved GDT Blocks
+```sh
+tune2fs -O^resize_inode /dev/mmcblk0p2
+fsck.ext4 /dev/mmcblk0p2 
+```
+
+### Step 6: Reboot
+```sh
+reboot
+```
+
+### Step 7: Resize the F2FS Filesystem
+```sh
+resize2fs /dev/mmcblk0p2
+```
+
+### Step 8: Check New Root Partition Size
+```sh
+df –h
+```
+
+This will successfully increase your storage.
+
 ## Useful Links
 
 - [Resize Storage on OpenWRT Raspberry Pi](https://github.com/rahulelex/resize-storage-on-openwrt-raspberry-pi)
