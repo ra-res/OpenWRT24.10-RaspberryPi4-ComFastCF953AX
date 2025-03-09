@@ -19,6 +19,7 @@
     - `adguardhome`
     - `vim`
 5. Click on **Request Build** to generate the firmware.
+6. Click on **Factory (EX4)** to download the firmware.
 
 ## Step 2: Installing the Image on the MicroSD Card
 
@@ -38,7 +39,7 @@ config device
 config interface 'lan'
         option device 'br-lan'
         option proto 'static'
-        option ipaddr '10.10.10.1'
+        option ipaddr '192.168.1.1'
         option netmask '255.255.255.0'
         option ip6assign '60'
 
@@ -49,7 +50,7 @@ config interface 'wan'
 
 ## Step 4: Setting Up AdGuard Home
 
-Follow the [AdGuard Home setup guide](https://openwrt.org/docs/guide-user/services/dns/adguard-home) using HaGeZi Ultimate.
+Follow the [AdGuard Home setup guide](https://openwrt.org/docs/guide-user/services/dns/adguard-home) and add HaGeZi Ultimate to the DNS blocklist.
 
 ## Useful Links
 
